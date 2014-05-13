@@ -1,0 +1,110 @@
+//
+//  TabBarViewController.m
+//  ETutor_Teacher
+//
+//  Created by ibokan on 14-2-27.
+//  Copyright (c) 2014年 ibokan. All rights reserved.
+//
+
+#import "TabBarViewController.h"
+#import "HomeViewController.h"
+#import "MoreViewController.h"
+#import "OrderViewController.h"
+#import "UserViewController.h"
+
+#define kDockHeight 49
+#define kItemCount  4
+#define kItemTag 10000
+#define kItemSelectedBg @"tabbar_slider.png"
+@interface TabBarViewController ()
+{
+    UIImageView *_dock;
+    UIButton *_currentBtn;
+}
+@end
+
+@implementation TabBarViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self addControllers];
+    [self createDock];
+}
+#pragma mark - 创建底部dock
+-(void)createDock
+{
+    _dock=[[UIImageView alloc]init];
+    _dock.image=[UIImage imageNamed:@"tabbar_background.png"];
+    _dock.frame=CGRectMake(0, self.view.frame.size.height-kDockHeight, self.view.frame.size.width, kDockHeight);
+    _dock.userInteractionEnabled=YES;
+    [self.view addSubview:_dock];
+
+    [self addDockItemWithImage:@"tabbar_home.png" andIndex:0];
+    [self addDockItemWithImage:@"tabbar_order.png" andIndex:1];
+    [self addDockItemWithImage:@"tabbar_profile.png" andIndex:2];
+    [self addDockItemWithImage:@"tabbar_more.png" andIndex:3];
+}
+#pragma mark - 添加控制器
+-(void)addControllers
+{
+    HomeViewController *home=[HomeViewController new];
+    UINavigationController *hv=[[UINavigationController alloc]initWithRootViewController:home];
+    MoreViewController *more=[MoreViewController new];
+    UINavigationController *mv=[[UINavigationController alloc]initWithRootViewController:more];
+    OrderViewController*order=[OrderViewController new];
+    UINavigationController *ov=[[UINavigationController alloc]initWithRootViewController:order];
+    UserViewController *user=[UserViewController new];
+    UINavigationController *uv=[[UINavigationController alloc]initWithRootViewController:user];
+    self.tabBar.hidden=YES;
+    NSArray *controllers=[NSArray arrayWithObjects:hv,ov,uv,mv, nil];
+    self.viewControllers=controllers;
+}
+#pragma mark -添加dock上的按钮
+-(void)addDockItemWithImage:(NSString *)image andIndex:(int)index
+{
+    CGFloat btnHeight=_dock.frame.size.height;
+    CGFloat btnWidth=_dock.frame.size.width/kItemCount;
+    
+    UIButton *dockItem=[UIButton buttonWithType:UIButtonTypeCustom];
+    dockItem.frame=CGRectMake(index*btnWidth, 0, btnWidth, btnHeight);
+    
+    [dockItem setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+    
+    [dockItem setImage:[UIImage imageNamed:[image appendFileName:@"_selected"]] forState:UIControlStateSelected];
+    
+    dockItem.adjustsImageWhenHighlighted=NO;
+    
+    [dockItem setBackgroundImage:[UIImage imageNamed:kItemSelectedBg] forState:UIControlStateSelected];
+    dockItem.tag=kItemTag+index;
+    if (index==0) {
+        dockItem.selected=YES;
+        _currentBtn=dockItem;
+    }
+    [dockItem addTarget:self action:@selector(itemClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_dock addSubview:dockItem];
+}
+#pragma mark - dock上按钮点击事件切换控制器
+-(void)itemClick:(UIButton *)sender
+{
+    _currentBtn.selected=NO;
+    
+    sender.selected=YES;
+    
+    _currentBtn=sender;
+    
+    int index=sender.tag-kItemTag;
+    
+    self.selectedViewController=self.viewControllers[index];
+}
+
+@end

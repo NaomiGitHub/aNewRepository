@@ -1,0 +1,83 @@
+//
+//  UserViewController.m
+//  ETutor_Teacher
+//
+//  Created by ibokan on 14-2-27.
+//  Copyright (c) 2014年 ibokan. All rights reserved.
+//
+
+#import "UserViewController.h"
+#import "UserInfoViewController.h"
+#define kPhotoHeight 100
+#define kNameFont   16
+#define kDetailFont 13
+@interface UserViewController ()
+{
+    UIImageView *_photo;
+    UILabel *_nameLbl;
+    UILabel *_detailLbl;
+}
+@end
+
+@implementation UserViewController
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    kNavigationBarFit(self);
+    [self addTableHeaderView];
+}
+#pragma mark - 添加用户信息头部视图
+-(void)addTableHeaderView
+{
+    UIView *view=[[UIView alloc]init];
+    view.backgroundColor=kGlobalBgColor;
+    view.frame=CGRectMake(5, 5, self.view.frame.size.width-10, kPhotoHeight+20);
+    [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userInfoDetail:)]];
+    
+    _photo=[[UIImageView alloc]init];
+    _photo.frame=CGRectMake(10, 10, kPhotoHeight, kPhotoHeight);
+    _photo.backgroundColor=kGlobalBgColor;
+    _photo.image=[UIImage imageNamed:@"2.png"];
+    [view addSubview:_photo];
+
+    
+    /****以下控件都是死控件****/
+    UILabel *name=[[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_photo.frame)+10, view.frame.size.height*0.2, 40, 30)];
+    name.text=@"姓名:";
+    name.font=[UIFont systemFontOfSize:kNameFont];
+    [view addSubview:name];
+    
+    UILabel *detail=[[UILabel alloc]initWithFrame:CGRectMake(name.frame.origin.x, CGRectGetMaxY(name.frame), 40, 30)];
+    detail.text=@"账号:";
+    detail.alpha=0.8;
+    detail.font=[UIFont systemFontOfSize:kDetailFont];
+    [view addSubview:detail];
+    
+    UIImageView *jiantou=[[UIImageView alloc]init];
+    jiantou.bounds=CGRectMake(0, 0, 20, 20);
+    jiantou.center=CGPointMake(view.frame.size.width*0.95, view.frame.size.height*0.5);
+    jiantou.image=[UIImage imageNamed:@"forward.png"];
+    [view addSubview:jiantou];
+    /*  ******************  */
+    _nameLbl=[[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(name.frame), name.frame.origin.y, 50, name.frame.size.height)];
+    _nameLbl.text=@"张三";
+    _nameLbl.font=[UIFont systemFontOfSize:kNameFont];
+    [view addSubview:_nameLbl];
+    
+    _detailLbl=[[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(detail.frame), detail.frame.origin.y, 100, 30)];
+    _detailLbl.text=@"liuwenjie877273033";
+    _detailLbl.font=[UIFont systemFontOfSize:kDetailFont];
+    [view addSubview:_detailLbl];
+    
+    [self.view addSubview:view];
+}
+-(void)userInfoDetail:(UITapGestureRecognizer *)sender
+{
+    UserInfoViewController *userInfoVC=[UserInfoViewController new];
+    [self.navigationController pushViewController:userInfoVC animated:YES];
+}
+
+
+@end

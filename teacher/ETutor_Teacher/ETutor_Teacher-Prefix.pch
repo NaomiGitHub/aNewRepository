@@ -1,0 +1,78 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
+
+//判断是否四寸屏（5，5s）
+#define iphone5 ([UIScreen mainScreen].bounds.size.height==568)
+
+//导入全局所需文件头文件
+#import "MacroDefinition.h"
+#import "Config.h"
+#import "NSString+File.h"
+#import "NSString+Date.h"
+#import "UIImage+Img.h"
+#import "UIBarButtonItem+Items.h"
+#import "IconBtn.h"
+#import "ASIFormDataRequest.h"
+#import "ASIHTTPRequest.h"
+#import "MBProgressHUD.h"
+#import "AllAccManager.h"
+#import "RequestTool.h"
+#import "MacroDefinition.h"
+#import "UIButton+Button.h"
+#import "BMapKit.h"
+#import "UIImageView+WebCache.h"
+//全局返回按钮宽高
+#define kBtnHeight 35
+#define kBtnWidth  60
+//设置全局颜色
+#define kSetColor(r,g,b,a) [UIColor colorWithRed:r green:g blue:b alpha:a]
+#define kGlobalBgColor [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.2]
+#define kTextBgColor  [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:0.8]
+#define kDefineColor kSetColor(0.98 , 0.98, 0.98, 1)
+#define kTitleNormalFont [UIFont boldSystemFontOfSize:14]
+#define kTitleSmallFont [UIFont boldSystemFontOfSize:12]
+#define kTitleBigFont [UIFont boldSystemFontOfSize:16]
+#define kTitleBoladNormalFont [UIFont boldSystemFontOfSize:14]
+#define kTitleBoladBigFont [UIFont boldSystemFontOfSize:16]
+#define kTitleBoladSmallFont [UIFont boldSystemFontOfSize:12]
+#define kDefineMargin 10
+/*归档相关*/
+#define kLoginStatu     @"loginStatu"       //登陆状态
+#define kAccount        @"account"
+
+#define kMsgNoti  @"msgNoti"
+#define kTelRec   @"telRec"
+#define kMapLoc   @"mapLoc"
+#define kWifiUse  @"wifiUse"
+#define kClearCatch @"clearCatch"
+/*新浪登陆*/
+#define kAppKey         @"3534485424"
+#define kAppSecret      @"31c11670cb2f1cf28df5def046032454"
+#define kRedirectURL    @"http://www.baidu.com"
+
+#define kAccessToken    @"access_token"
+#define kUid            @"uid"
+#define kWeiboName      @"screenName"
+#define kOauthURL       [NSString stringWithFormat:@"https://api.weibo.com/oauth2/authorize?client_id=%@&redirect_uri=%@&display=mobile&response_type=code&state=authorize", kAppKey, kRedirectURL]
+
+
+//解决导航栏遮盖view的问题 代码
+#define kNavigationBarFit(className)[className setEdgesForExtendedLayout:UIRectEdgeNone];\
+[className setExtendedLayoutIncludesOpaqueBars:NO];\
+[className setModalPresentationCapturesStatusBarAppearance:NO];\
+self.navigationController.navigationBar.translucent=NO;
+

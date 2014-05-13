@@ -1,0 +1,38 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
+
+//判断是否四寸屏（5，5s）
+#define iphone5 ([UIScreen mainScreen].bounds.size.height==568)
+
+//导入全局所需文件头文件
+#import "MacroDefinition.h"
+#import "Config.h"
+#import "NSString+File.h"
+#import "UIImage+Img.h"
+#import "UIBarButtonItem+Items.h"
+#import "Singleton.h"
+//设置全局颜色
+#define kSetColor(r,g,b,a) [UIColor colorWithRed:r green:g blue:b alpha:a]
+#define kGlobalBgColor [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.2]
+
+
+//解决导航栏遮盖view的问题 代码
+#define kNavigationBarFit(className)[className setEdgesForExtendedLayout:UIRectEdgeNone];\
+[className setExtendedLayoutIncludesOpaqueBars:NO];\
+[className setModalPresentationCapturesStatusBarAppearance:NO];\
+self.navigationController.navigationBar.translucent=NO;
+

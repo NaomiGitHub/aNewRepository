@@ -1,0 +1,57 @@
+//
+//  HomeViewController.m
+//  ETutor_Teacher
+//
+//  Created by ibokan on 14-2-27.
+//  Copyright (c) 2014年 ibokan. All rights reserved.
+//
+
+#import "HomeViewController.h"
+#import "LoginViewController.h"
+#import "RegisterViewController.h"
+@interface HomeViewController ()
+
+@end
+
+@implementation HomeViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    [self addLoginAndRegisterBtn];
+}
+#pragma mark - 添加登陆注册按钮
+-(void)addLoginAndRegisterBtn
+{
+    UIBarButtonItem *right=[[UIBarButtonItem alloc]initWithTitle:@"登陆" style:UIBarButtonItemStyleBordered target:self action:@selector(login)];
+    self.navigationItem.rightBarButtonItem=right;
+    
+    UIBarButtonItem *left=[[UIBarButtonItem alloc]initWithTitle:@"注册" style:UIBarButtonItemStyleBordered target:self action:@selector(registerAccount)];
+    self.navigationItem.leftBarButtonItem=left;
+}
+#pragma mark - 登陆
+-(void)login
+{
+    LoginViewController *loginVC=[LoginViewController new];
+    UINavigationController *log=[[UINavigationController alloc]initWithRootViewController:loginVC];
+    [self presentViewController:log animated:YES completion:nil];
+}
+#pragma mark - 注册
+-(void)registerAccount
+{
+    RegisterViewController *reg=[RegisterViewController sharedRegisterViewController];
+    UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:reg];
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+@end

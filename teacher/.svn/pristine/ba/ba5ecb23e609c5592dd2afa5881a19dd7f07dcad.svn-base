@@ -1,0 +1,111 @@
+//
+//  NewFeatureViewController.m
+//  ETutor_Teacher
+//
+//  Created by ibokan on 14-2-27.
+//  Copyright (c) 2014年 ibokan. All rights reserved.
+//
+
+#import "NewFeatureViewController.h"
+#import "TabBarViewController.h"
+#define kImageCount 4
+@interface NewFeatureViewController ()<UIScrollViewDelegate>
+{
+    UIScrollView  *_scrollView;
+    UIPageControl *_pageControl;
+}
+@end
+
+@implementation NewFeatureViewController
+#pragma mark - 自定义控制器的view
+-(void)loadView
+{
+    [super loadView];
+    UIImageView *imageView=[[UIImageView alloc]init];
+    imageView.frame=[UIScreen mainScreen].bounds;
+    imageView.image=[UIImage fullScreenImageWithName:@"new_feature_background.png"];
+    imageView.userInteractionEnabled=YES;
+    self.view=imageView;
+}
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    [self addScrollView];
+    [self addImageView];
+    [self addPageControl];
+}
+#pragma mark -1,加载scrollView
+
+-(void)addScrollView
+{
+    CGSize viewSize=self.view.bounds.size;
+ 
+    UIScrollView *scrollView=[[UIScrollView alloc]initWithFrame:self.view.bounds];
+    //不显示水平滚动条
+    scrollView.showsHorizontalScrollIndicator=NO;
+    //按页滚动
+    scrollView.pagingEnabled=YES;
+    //滚动区域大小
+    scrollView.contentSize=CGSizeMake(kImageCount*viewSize.width, 0);
+    //设置代理
+    scrollView.delegate=self;
+    _scrollView=scrollView;
+    [self.view addSubview:scrollView];
+}
+#pragma mark - 2,加载UIImageView
+-(void)addImageView
+{
+    for (int i=0; i<kImageCount; i++) {
+        CGSize viewSize=self.view.frame.size;
+        UIImageView *imageView=[[UIImageView alloc]init];
+        imageView.frame=(CGRect){{i * viewSize.width,0},viewSize};
+        NSString *name=[NSString stringWithFormat:@"new_feature_%d.png",i+1];
+        imageView.image=[UIImage fullScreenImageWithName:name];
+        [_scrollView addSubview:imageView];
+        
+        if (i==kImageCount-1) {
+            imageView.userInteractionEnabled=YES;
+            [self addEndPageBtn:imageView];
+        }
+    }
+}
+#pragma mark - 3,添加pageControl
+-(void)addPageControl
+{
+    CGSize viewSize=self.view.bounds.size;
+    _pageControl=[[UIPageControl alloc]init];
+    _pageControl.center=CGPointMake(viewSize.width*0.5, viewSize.height*0.95);
+    _pageControl.bounds=CGRectMake(0, 0, 100, 0);
+    _pageControl.numberOfPages=kImageCount;
+    _pageControl.userInteractionEnabled=NO;
+    //设置pageControl颜色
+    _pageControl.pageIndicatorTintColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"new_feature_pagecontrol_point.png"]];
+    _pageControl.currentPageIndicatorTintColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"new_feature_pagecontrol_checked_point.png"]];
+    [self.view addSubview:_pageControl];
+}
+#pragma mark scrollView delegate 设置pageControl的当前页 滚动完静止时调用
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    _pageControl.currentPage=scrollView.contentOffset.x/scrollView.frame.size.width;
+}
+#pragma mark - 5，添加最后一页跳转按钮
+-(void)addEndPageBtn:(UIImageView *)imageView
+{
+    CGSize viewSize=self.view.bounds.size;
+    UIButton *button=[UIButton buttonWithType:UIButtonTypeCustom];
+    button.center=CGPointMake(viewSize.width*0.5, viewSize.height*0.85);
+    button.bounds=CGRectMake(0, 0, 140, 30);
+    [button setBackgroundColor:[UIColor grayColor]];
+    [button setTitle:@"开启家教之旅" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(startJump) forControlEvents:UIControlEventTouchUpInside];
+    [imageView addSubview:button];
+}
+#pragma mark - 按钮点击事件
+-(void)startJump
+{
+    if (_start) {
+        _start(YES);
+    }
+}
+@end

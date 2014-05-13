@@ -1,0 +1,77 @@
+//
+//  LoginViewController.m
+//  ETutor_Teacher
+//
+//  Created by ibokan on 14-2-28.
+//  Copyright (c) 2014年 ibokan. All rights reserved.
+//
+
+#import "LoginViewController.h"
+#import "RegisterViewController.h"
+@interface LoginViewController ()
+
+@end
+
+@implementation LoginViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.view.backgroundColor=kGlobalBgColor;
+    UIBarButtonItem *left=[[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
+    self.navigationItem.leftBarButtonItem=left;
+    
+    UIBarButtonItem *right=[[UIBarButtonItem alloc]initWithTitle:@"注册" style:UIBarButtonItemStyleBordered target:self action:@selector(registerAccount)];
+    self.navigationItem.rightBarButtonItem=right;
+    [self addSubViewWithLbl];
+}
+#pragma mark - 返回按钮事件
+-(void)back
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+#pragma mark - 注册按钮事件
+-(void)registerAccount
+{
+    UIViewController *vc=[RegisterViewController sharedRegisterViewController];
+    UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
+}
+#pragma mark - 添加控件
+-(void)addSubViewWithLbl
+{
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(10, 150, self.view.frame.size.width-20, 100)];
+    UITextField *account=[[UITextField alloc]init];
+    account.borderStyle=UITextBorderStyleRoundedRect;
+    account.placeholder=@"账号:";
+    account.frame=CGRectMake(0, 0, view.frame.size.width, view.frame.size.height*0.5);
+    [view addSubview:account];
+    
+    UITextField *pw=[[UITextField alloc]init];
+    pw.borderStyle=UITextBorderStyleRoundedRect;
+    pw.placeholder=@"密码:";
+    pw.frame=CGRectMake(0, CGRectGetMaxY(account.frame), view.frame.size.width, view.frame.size.height*0.5);
+    [view addSubview:pw];
+    [self.view addSubview:view];
+    
+    UIButton *button=[UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame=CGRectMake(view.frame.origin.x, CGRectGetMaxY(view.frame)+30, view.frame.size.width, 50);
+    button.layer.cornerRadius=5;
+    [button addTarget:self action:@selector(loginAccount) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"登   陆" forState:UIControlStateNormal];
+    [button setBackgroundColor:kSetColor(0.1, 0.1, 0.5, 0.5)];
+
+    [self.view addSubview:button];
+}
+#pragma mark - 登陆按钮事件
+-(void)loginAccount
+{
+    NSLog(@"ddddddddddd");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+@end
