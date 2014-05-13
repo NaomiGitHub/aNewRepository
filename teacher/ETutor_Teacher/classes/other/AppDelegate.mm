@@ -31,7 +31,7 @@
     
     NSLog(@"helloworld");
 
-    
+    NSLog(@"%@",@"TTT");
     
     NSString *key=(NSString *)kCFBundleVersionKey;
     
