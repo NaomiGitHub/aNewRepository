@@ -28,6 +28,8 @@
 	if (!ret) {
 		NSLog(@"manager start failed!");
 	}
+    
+    NSLog(@"helloworld");
 
     
     
